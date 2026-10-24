@@ -1,4 +1,6 @@
 import type {Metadata} from 'next';
+import type {CSSProperties} from 'react';
+import {paletteData} from '../../lib/content';
 import {notFound} from 'next/navigation';
 import {isLocale} from '../../lib/locale';
 import {getMessages} from '../../lib/messages';
@@ -14,5 +16,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string}>
 }
 export default async function Layout({children,params}:{children:React.ReactNode;params:Promise<{locale:string}>}) {
   const {locale}=await params;if(!isLocale(locale))notFound();
-  return <html lang={locale}><body>{children}</body></html>;
+  const colours=paletteData.palettes[paletteData.main];
+  const style=Object.fromEntries(Object.entries(colours).map(([key,value])=>[`--${key}`,value])) as CSSProperties;
+  return <html lang={locale} className="dark" style={style}><body>{children}</body></html>;
 }

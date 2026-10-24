@@ -1,0 +1,5 @@
+# Project-only MCP; resolve web/ from the active repository, including worktrees.
+[mcp_servers.shadcn]
+command = "/bin/sh"
+args = ["-c", 'exec mise --cd "$(git rev-parse --show-toplevel)/web" exec -- npx --no-install shadcn mcp']
+startup_timeout_sec = 60
