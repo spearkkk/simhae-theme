@@ -1,0 +1,8 @@
+import 'server-only';
+import {readFileSync} from 'node:fs';
+import path from 'node:path';
+import {parse} from 'yaml';
+import {validatePalette} from '../../../scripts/lib/palette.mjs';
+export type Port = {id: 'intellij'|'chrome'|'zen';name:string;repository:string;installation:string;status:'source'|'published';variants:string[];screenshot?:string};
+export const paletteData = validatePalette(parse(readFileSync(path.resolve(process.cwd(),'../palettes/palette.yaml'),'utf8'))) as {main:string;palettes:Record<string,Record<string,string>>};
+export const ports = JSON.parse(readFileSync(path.resolve(process.cwd(),'../data/ports.json'),'utf8')) as Port[];

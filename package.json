@@ -1,0 +1,28 @@
+{
+  "name": "simhae-theme",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "web"
+  ],
+  "engines": {
+    "node": ">=24 <27"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace web",
+    "build": "npm run validate && npm run build --workspace web",
+    "lint": "npm run lint --workspace web",
+    "typecheck": "npm run typecheck --workspace web",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "validate": "node scripts/validate.mjs",
+    "sync:palette": "node scripts/sync-palette.mjs"
+  },
+  "dependencies": {
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "foundation": "테마 기반 · 디자인은 다음 단계에서",
+  "heading": "심해에서 가져온 팔레트, Simhae.",
+  "description": "에디터와 브라우저를 잇는, 바다에서 영감을 얻은 공통 팔레트.",
+  "notice": "공통 색상, 앱별 링크, 언어별 이동을 확인하는 기반 페이지입니다. 최종 랜딩 디자인은 다음 단계에서 만듭니다.",
+  "language": "언어",
+  "repository": "프로젝트 보기",
+  "apps": "앱별 테마",
+  "portStatus": {
+    "source": "소스에서 설치",
+    "published": "배포 중"
+  },
+  "install": "설치 안내",
+  "source": "소스",
+  "preview": "코드 미리보기",
+  "codeComment": "현재 Simhae 색상을 그대로 사용합니다",
+  "palette": "팔레트",
+  "paletteNote": "원본 팔레트에서 직접 읽은 네 가지 기존 변형입니다.",
+  "main": "메인",
+  "footer": "Simhae · 공통 팔레트와 독립적인 앱별 테마."
+}

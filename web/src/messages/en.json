@@ -1,0 +1,21 @@
+{
+  "foundation": "THEME FOUNDATION · DESIGN TO FOLLOW",
+  "heading": "Simhae. A palette from the deep.",
+  "description": "A shared ocean-inspired palette for your editor and browser.",
+  "notice": "This is the project foundation: shared colours, application links and language routing. The final landing page design comes next.",
+  "language": "Language",
+  "repository": "View the project",
+  "apps": "Application themes",
+  "portStatus": {
+    "source": "INSTALL FROM SOURCE",
+    "published": "AVAILABLE"
+  },
+  "install": "Installation",
+  "source": "Source",
+  "preview": "Code preview",
+  "codeComment": "Current, unchanged Simhae colours",
+  "palette": "The palettes",
+  "paletteNote": "Four existing variants, read directly from the canonical palette.",
+  "main": "main",
+  "footer": "Simhae · Shared colours, independent application themes."
+}
