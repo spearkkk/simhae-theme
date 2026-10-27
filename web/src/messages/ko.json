@@ -14,11 +14,15 @@
   "preview": "코드 미리보기",
   "showcaseTitle": "익숙한 도구에 담긴 심해",
   "appScreenshotAlt": {
-    "zenBrowser": "Simhae 어두운 팔레트를 적용한 Zen Browser 창",
+    "intellij": "Simhae 색상 팔레트를 적용한 JetBrains IDE 화면",
     "chrome": "Simhae 팔레트 페이지를 띄운 Chrome 창",
-    "tmux": "Simhae 색상의 분할 화면과 상태 표시줄이 있는 tmux 세션",
-    "ghostty": "Simhae 색상으로 fastfetch를 표시한 Ghostty 터미널",
-    "alfred": "Simhae 팔레트를 적용한 Alfred 검색 창"
+    "zen": "Simhae 어두운 팔레트를 적용한 Zen Browser 창"
+  },
+  "portVariants": {
+    "pelagic": "Pelagic",
+    "trench": "Trench",
+    "hadal": "Hadal",
+    "benthic": "Benthic"
   },
   "codeComment": "현재 Simhae 색상을 그대로 사용합니다",
   "palette": "팔레트",

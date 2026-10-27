@@ -158,7 +158,10 @@ html { scroll-behavior: smooth; }
 .app-shot-card:hover { transform: translateY(-7px) scale(1.012); border-color: color-mix(in srgb, var(--base0C) 45%, var(--border)); box-shadow: 0 24px 60px color-mix(in srgb, var(--base10) 55%, transparent), 0 0 28px color-mix(in srgb, var(--base0C) 10%, transparent), inset 0 1px color-mix(in srgb, var(--base07) 14%, transparent); }
 .app-shot-card--launcher { grid-column: 1 / -1; }
 .app-shot-header { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 16px 18px 12px; }
+.app-shot-heading { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
 .app-shot-header h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.app-shot-variants { font-size: 11px; line-height: 1.4; }
+.app-shot-actions { flex-wrap: wrap; gap: 8px; }
 .app-shot-index { color: var(--base0C); font: 11px/1 ui-monospace, monospace; }
 .app-shot-detail { margin-left: auto; color: var(--muted-foreground); font: 11px/1.4 ui-monospace, monospace; }
 .app-shot-content { padding: 0 12px 12px; }

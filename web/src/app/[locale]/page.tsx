@@ -1,7 +1,7 @@
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import oceanImage from "@/assets/ocean-hero.png";
+import oceanImage from "@/assets/ocean-hero.webp";
 import { Separator } from "@/components/ui/separator";
 import { SiteHeader } from "@/components/SiteHeader";
 import { InformationPanel } from "@/components/InformationPanel";

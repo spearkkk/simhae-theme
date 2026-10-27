@@ -1,15 +1,11 @@
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ports } from "@/lib/content";
 import { getMessages } from "@/lib/messages";
 import type { Locale } from "@/lib/locale";
-
-const screenshots = [
-  { id: "zenBrowser", name: "Zen Browser", src: "/app-shots/zen-browser.png", width: 1636, height: 1160 },
-  { id: "chrome", name: "Chrome", src: "/app-shots/chrome.png", width: 1637, height: 1155 },
-  { id: "tmux", name: "tmux", src: "/app-shots/tmux.png", width: 1600, height: 1320 },
-  { id: "ghostty", name: "Ghostty", detail: "fastfetch", src: "/app-shots/ghostty-fastfetch.png", width: 1610, height: 1308 },
-  { id: "alfred", name: "Alfred", src: "/app-shots/alfred.png", width: 1586, height: 170 },
-] as const;
 
 export function AppShowcase({ locale }: { locale: Locale }) {
   const m = getMessages(locale);
@@ -18,25 +14,43 @@ export function AppShowcase({ locale }: { locale: Locale }) {
     <section className="app-showcase" aria-labelledby="app-showcase-title">
       <h2 id="app-showcase-title">{m.showcaseTitle}</h2>
       <div className="app-shot-grid">
-        {screenshots.map((shot, index) => (
-          <Card key={shot.id} className={`app-shot-card${shot.id === "alfred" ? " app-shot-card--launcher" : ""}`}>
+        {ports.map((port, index) => (
+          <Card key={port.id} data-port-id={port.id} className="app-shot-card">
             <CardHeader className="app-shot-header">
               <span className="app-shot-index" aria-hidden="true">0{index + 1}</span>
-              <CardTitle><h3>{shot.name}</h3></CardTitle>
-              {"detail" in shot && <span className="app-shot-detail">{shot.detail}</span>}
-            </CardHeader>
-            <CardContent className="app-shot-content">
-              <div className={`app-shot-art${shot.id === "alfred" ? " app-shot-art--launcher" : ""}`}>
-                <Image
-                  src={shot.src}
-                  alt={m.appScreenshotAlt[shot.id]}
-                  width={shot.width}
-                  height={shot.height}
-                  sizes={shot.id === "alfred" ? "(max-width: 800px) 100vw, 900px" : "(max-width: 800px) 100vw, 450px"}
-                  className="app-shot-image"
-                />
+              <div className="app-shot-heading">
+                <CardTitle><h3>{port.name}</h3></CardTitle>
+                <CardDescription className="app-shot-variants">
+                  {port.variants.map(variant => m.portVariants[variant]).join(" · ")}
+                </CardDescription>
               </div>
-            </CardContent>
+              <Badge variant="outline">{m.portStatus[port.status]}</Badge>
+            </CardHeader>
+            {port.screenshot && (
+              <CardContent className="app-shot-content">
+                <div className="app-shot-art">
+                  <Image
+                    src={port.screenshot}
+                    alt={m.appScreenshotAlt[port.id]}
+                    fill
+                    sizes="(max-width: 800px) 100vw, 450px"
+                    className="app-shot-image"
+                  />
+                </div>
+              </CardContent>
+            )}
+            <CardFooter className="app-shot-actions">
+              <Button asChild size="sm">
+                <a href={port.installation} target="_blank" rel="noreferrer">
+                  {m.install}<ArrowUpRight data-icon="inline-end" />
+                </a>
+              </Button>
+              <Button asChild size="sm" variant="outline">
+                <a href={port.repository} target="_blank" rel="noreferrer">
+                  {m.source}<ArrowUpRight data-icon="inline-end" />
+                </a>
+              </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>

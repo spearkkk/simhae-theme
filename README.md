@@ -23,7 +23,7 @@ npm run validate
 npm run dev
 ```
 
-The website lives in `web/`, with `/ko` and `/en`. Its root URL selects a supported browser language or a saved manual preference. This is a foundation for a future landing design, not the final visual design.
+The bilingual website lives in `web/`. It presents a full-screen deep-ocean opening, a scroll-led story, the 24-colour palette, a code preview and application screenshots. Visit `/ko` or `/en`; `/` selects a supported browser language or saved manual preference.
 
 ```sh
 npm run lint

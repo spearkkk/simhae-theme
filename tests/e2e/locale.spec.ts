@@ -16,8 +16,8 @@ test('explicit locale wins, manual choice persists and shared colours are presen
  await expect(page.locator('.palette-entry')).toHaveCount(24);
  await expect(page.locator('.palette-entry').first()).toContainText('Background');
  await expect(page.locator('.palette-entry').last()).toContainText('Bright purple');
- await expect(page.locator('body')).not.toContainText(/pelagic|trench|hadal|benthic/i);
- await expect(page.locator('.app-shot-card')).toHaveCount(5);
+ await expect(page.locator('.palette-preview')).not.toContainText(/pelagic|trench|hadal|benthic/i);
+ await expect(page.locator('.app-shot-card')).toHaveCount(3);
  await page.getByRole('link',{name:'한국어',exact:true}).click();
  await expect(page).toHaveURL(/\/ko$/);await expect(page.locator('html')).toHaveAttribute('lang','ko');
  await expect(page.locator('.theme-story')).toContainText('심해 컬러 테마는 그런 마음으로 만들었습니다.');
@@ -28,4 +28,14 @@ test('explicit locale wins, manual choice persists and shared colours are presen
 });
 test('unknown locale is not presented as a supported translation',async({request})=>{
  expect((await request.get('/fr')).status()).toBe(404);
+});
+
+test('canonical and Open Graph metadata use the localized site URL', async ({ page }) => {
+ await page.goto('/en');
+ const canonicalHref = await page.locator('link[rel="canonical"]').getAttribute('href');
+ expect(canonicalHref).not.toBeNull();
+ const canonicalUrl = new URL(canonicalHref!);
+ expect(canonicalUrl.pathname).toBe('/en');
+ expect(['http:', 'https:']).toContain(canonicalUrl.protocol);
+ await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonicalUrl.href);
 });

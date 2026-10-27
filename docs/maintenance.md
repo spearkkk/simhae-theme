@@ -36,7 +36,7 @@ Application releases are independent. Update `data/ports.json` to `published` on
 
 Use the repository root commands in README. `npm run build` validates data before building the site. Messages in `web/src/messages/en.json` and `ko.json` must have the same keys. Never fetch the latest palette from GitHub at runtime.
 
-Connect the GitHub repository to Vercel with Root Directory `web`. Enable **Include source files outside of the Root Directory in the Build Step**. This is required for `palettes/`, `data/` and shared validation. Use the committed root npm lockfile; leave the framework preset as Next.js. Preview first; no custom domain is required. Production deployment is separate from app marketplace releases.
+Connect the GitHub repository to Vercel with Root Directory `web`. Enable **Include source files outside of the Root Directory in the Build Step**. This is required for `palettes/`, `data/` and shared validation. Use the committed root npm lockfile; leave the framework preset as Next.js. The workspace build succeeds from `web/`. Preview first; no custom domain is required. The Vercel dashboard project settings and preview/production deployments remain external setup and were not verified from this checkout. Set `NEXT_PUBLIC_SITE_URL` when a stable production domain is assigned; otherwise Vercel's `VERCEL_PROJECT_PRODUCTION_URL` provides the metadata origin. Production deployment is separate from app marketplace releases.
 
 ## Migration verification
 

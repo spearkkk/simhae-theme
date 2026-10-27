@@ -1,4 +1,8 @@
 import { expect, test } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const applicationPorts = JSON.parse(readFileSync(new URL('../../data/ports.json', import.meta.url), 'utf8'));
+const englishMessages = JSON.parse(readFileSync(new URL('../../web/src/messages/en.json', import.meta.url), 'utf8'));
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
   test(`hero can be revisited until entry, then scrolling stays in the content at ${viewport.width}px`, async ({ page }) => {
@@ -8,6 +12,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     const content = page.locator('#information');
     const header = page.getByRole('banner');
     await expect(hero).toBeVisible();
+    await expect(page.locator('.ocean-image')).toHaveAttribute('src', /webp/);
     await expect.poll(() => page.locator('.ocean-image').evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     const initialHero = await hero.boundingBox();
     const initialContent = await content.boundingBox();
@@ -131,8 +136,11 @@ test('scrolling beyond the footer fades the ocean over the story', async ({ page
   const transition = await page.evaluate(() => {
     const content = document.querySelector('.information-inner')!;
     const panel = document.querySelector('#information')!;
+    const stage = document.querySelector('.information-stage')!;
+    const header = document.querySelector('.site-header')!;
     const distance = window.innerHeight * 0.8;
-    return { start: window.scrollY + content.scrollHeight - panel.clientHeight, distance };
+    const dockAt = stage.getBoundingClientRect().top + window.scrollY - header.getBoundingClientRect().height;
+    return { start: dockAt + content.scrollHeight - panel.clientHeight, distance };
   });
   await page.evaluate(({ start, distance }) => window.scrollTo({ top: start + distance / 2, behavior: 'instant' }), transition);
   await expect.poll(() => page.locator('.ocean-return-image').evaluate(el => Number(getComputedStyle(el).opacity))).toBeCloseTo(0.5, 2);
@@ -156,4 +164,42 @@ test('scrolling beyond the footer fades the ocean over the story', async ({ page
   await expect.poll(() => page.locator('.ocean-ending').evaluate(el => Number(getComputedStyle(el).opacity))).toBeCloseTo(0.72, 2);
   await expect(page.locator('.ocean-return p')).toHaveCount(0);
   expect(headerHeight).toBeGreaterThan(0);
+});
+
+test('application gallery follows the canonical port index and omits absent screenshots', async ({ page }) => {
+  await page.goto('/en');
+  const cards = page.locator('.app-shot-card');
+  await expect(cards).toHaveCount(applicationPorts.length);
+
+  for (const port of applicationPorts) {
+    const card = page.locator(`[data-port-id="${port.id}"]`);
+    await expect(card).toHaveCount(1);
+    await expect(card.getByRole('heading')).toHaveText(port.name);
+    await expect(card).toContainText(englishMessages.portStatus[port.status]);
+    await expect(card.locator('.app-shot-variants')).toHaveText(port.variants.map((variant: string) => englishMessages.portVariants[variant]).join(' · '));
+    await expect(card.getByRole('link', { name: 'Installation' })).toHaveAttribute('href', port.installation);
+    await expect(card.getByRole('link', { name: 'Source' })).toHaveAttribute('href', port.repository);
+    if (port.screenshot) {
+      const image = card.locator('img');
+      await expect(image).toHaveAttribute('src', new RegExp(encodeURIComponent(port.screenshot)));
+      await image.evaluate(el => { (el as HTMLImageElement).loading = 'eager'; });
+      await expect.poll(() => card.locator('img').evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    } else {
+      await expect(card.locator('img')).toHaveCount(0);
+    }
+  }
+
+  const sourceLink = page.locator('[data-port-id="intellij"]').getByRole('link', { name: 'Source' });
+  const installLink = page.locator('[data-port-id="intellij"]').getByRole('link', { name: 'Installation' });
+  await sourceLink.focus();
+  await page.keyboard.press('Shift+Tab');
+  await expect(installLink).toBeFocused();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.locator('.app-shot-card').first()).toHaveCSS('animation-name', 'none');
+
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect(page.locator('.app-shot-card')).toHaveCount(applicationPorts.length);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });

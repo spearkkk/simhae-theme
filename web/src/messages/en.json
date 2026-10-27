@@ -14,11 +14,15 @@
   "preview": "Code preview",
   "showcaseTitle": "Simhae across your setup",
   "appScreenshotAlt": {
-    "zenBrowser": "Zen Browser window using the Simhae dark palette",
+    "intellij": "JetBrains IDE window using the Simhae colour palette",
     "chrome": "Chrome window showing the Simhae palette page",
-    "tmux": "A tmux session with split panes and the Simhae status bar",
-    "ghostty": "Ghostty terminal displaying fastfetch in Simhae colors",
-    "alfred": "Alfred search field styled with the Simhae palette"
+    "zen": "Zen Browser window using the Simhae dark palette"
+  },
+  "portVariants": {
+    "pelagic": "Pelagic",
+    "trench": "Trench",
+    "hadal": "Hadal",
+    "benthic": "Benthic"
   },
   "codeComment": "Current, unchanged Simhae colours",
   "palette": "The palette",

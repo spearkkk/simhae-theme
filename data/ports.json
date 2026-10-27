@@ -1,5 +1,28 @@
 [
- {"id":"intellij","name":"JetBrains IDEs","repository":"https://github.com/spearkkk/simhae-intellij","installation":"https://github.com/spearkkk/simhae-intellij#installation","status":"source","variants":["pelagic","trench","hadal","benthic"]},
- {"id":"chrome","name":"Chrome","repository":"https://github.com/spearkkk/simhae-chrome","installation":"https://github.com/spearkkk/simhae-chrome#installation","status":"source","variants":["pelagic"]},
- {"id":"zen","name":"Zen Browser","repository":"https://github.com/spearkkk/simhae-zen","installation":"https://github.com/spearkkk/simhae-zen#installation","status":"source","variants":["pelagic"]}
+  {
+    "id": "intellij",
+    "name": "JetBrains IDEs",
+    "repository": "https://github.com/spearkkk/simhae-intellij",
+    "installation": "https://github.com/spearkkk/simhae-intellij#installation",
+    "status": "source",
+    "variants": ["pelagic", "trench", "hadal", "benthic"]
+  },
+  {
+    "id": "chrome",
+    "name": "Chrome",
+    "repository": "https://github.com/spearkkk/simhae-chrome",
+    "installation": "https://github.com/spearkkk/simhae-chrome#installation",
+    "status": "source",
+    "variants": ["pelagic"],
+    "screenshot": "/app-shots/chrome.png"
+  },
+  {
+    "id": "zen",
+    "name": "Zen Browser",
+    "repository": "https://github.com/spearkkk/simhae-zen",
+    "installation": "https://github.com/spearkkk/simhae-zen#installation",
+    "status": "source",
+    "variants": ["pelagic"],
+    "screenshot": "/app-shots/zen-browser.png"
+  }
 ]
