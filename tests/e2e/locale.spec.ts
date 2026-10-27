@@ -9,12 +9,18 @@ test('root negotiates browser languages and never caches the choice',async({requ
 test('explicit locale wins, manual choice persists and shared colours are present',async({page,context})=>{
  await context.setExtraHTTPHeaders({'Accept-Language':'ko-KR'});
  await page.goto('/en');await expect(page.locator('html')).toHaveAttribute('lang','en');
- await expect(page.getByRole('heading',{level:1})).toContainText('Simhae');
+ await expect(page.getByRole('heading',{level:3,name:'Have you been in the deep ocean before?',exact:true})).toBeAttached();
+ await expect(page.locator('.theme-story')).toContainText('Simhae (심해)');
  await expect(page.locator('.variants')).toContainText('#24425C');
  await expect(page.locator('.variants')).toContainText('#4A6E86');
- await expect(page.locator('.ports article')).toHaveCount(3);
+ await expect(page.locator('.palette-entry')).toHaveCount(24);
+ await expect(page.locator('.palette-entry').first()).toContainText('Background');
+ await expect(page.locator('.palette-entry').last()).toContainText('Bright purple');
+ await expect(page.locator('body')).not.toContainText(/pelagic|trench|hadal|benthic/i);
+ await expect(page.locator('.app-shot-card')).toHaveCount(5);
  await page.getByRole('link',{name:'한국어',exact:true}).click();
  await expect(page).toHaveURL(/\/ko$/);await expect(page.locator('html')).toHaveAttribute('lang','ko');
+ await expect(page.locator('.theme-story')).toContainText('심해 컬러 테마는 그런 마음으로 만들었습니다.');
  await page.getByRole('link',{name:'English',exact:true}).click();
  await page.goto('/');await expect(page).toHaveURL(/\/en$/);
  await page.goto('/ko');await expect(page.locator('html')).toHaveAttribute('lang','ko');

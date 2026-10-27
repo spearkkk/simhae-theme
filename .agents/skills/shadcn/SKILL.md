@@ -13,6 +13,10 @@ A framework for building ui, components and design systems. Components are added
 
 ## Current Project Context
 
+### Simhae web design contract
+
+For any work under `web/`, first read `web/DESIGN.md`. Its semantic palette roles, spacing rhythm, surface recipes, and motion rules are the project source of truth and take precedence over generic registry examples. Reuse existing shadcn primitives and application recipes; do not add one-off decoration. Before finishing a visual change, inspect it at desktop and mobile widths and check reduced motion.
+
 ```json
 !`npx shadcn@latest info --json`
 ```

@@ -4,6 +4,7 @@ import {paletteData} from '../../lib/content';
 import {notFound} from 'next/navigation';
 import {isLocale} from '../../lib/locale';
 import {getMessages} from '../../lib/messages';
+import {Toaster} from '@/components/ui/sonner';
 import '../globals.css';
 export const dynamicParams = false;
 export function generateStaticParams() {return [{locale:'en'},{locale:'ko'}];}
@@ -18,5 +19,5 @@ export default async function Layout({children,params}:{children:React.ReactNode
   const {locale}=await params;if(!isLocale(locale))notFound();
   const colours=paletteData.palettes[paletteData.main];
   const style=Object.fromEntries(Object.entries(colours).map(([key,value])=>[`--${key}`,value])) as CSSProperties;
-  return <html lang={locale} className="dark" style={style}><body>{children}</body></html>;
+  return <html lang={locale} className="dark" style={style}><body>{children}<Toaster theme="dark" position="bottom-center" duration={800} visibleToasts={1} /></body></html>;
 }

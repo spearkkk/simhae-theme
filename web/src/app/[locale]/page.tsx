@@ -1,14 +1,13 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
-} from "@/components/ui/card";
+import oceanImage from "@/assets/ocean-hero.png";
 import { Separator } from "@/components/ui/separator";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { paletteData, ports } from "@/lib/content";
+import { SiteHeader } from "@/components/SiteHeader";
+import { InformationPanel } from "@/components/InformationPanel";
+import { AppShowcase } from "@/components/AppShowcase";
+import { PalettePreview } from "@/components/PalettePreview";
+import { paletteData } from "@/lib/content";
 import { isLocale } from "@/lib/locale";
 import { getMessages } from "@/lib/messages";
 
@@ -16,100 +15,83 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const m = getMessages(locale);
+  const colors = paletteData.palettes[paletteData.main];
 
   return (
-    <main>
-      <header>
-        <a href={`/${locale}`} className="wordmark">simhae <span>심해</span></a>
-        <LanguageSwitcher locale={locale} label={m.language} />
-      </header>
-      <Separator />
-      <section className="intro">
-        <p className="eyebrow">{m.foundation}</p>
-        <h1>{m.heading}</h1>
-        <p className="lede">{m.description}</p>
-        <Alert className="my-6">
-          <AlertDescription>{m.notice}</AlertDescription>
-        </Alert>
-        <Button asChild size="lg">
-          <a href="https://github.com/spearkkk/simhae-theme">
-            {m.repository}<ArrowUpRight data-icon="inline-end" />
+    <>
+      <SiteHeader locale={locale} languageLabel={m.language} />
+      <main className="landing">
+        <section id="ocean" className="ocean-hero" aria-label="Simhae">
+          <Image src={oceanImage} alt="" fill preload sizes="100vw" className="ocean-image" />
+          <div className="ocean-shade" aria-hidden="true" />
+          <a href="#information" className="scroll-cue">
+            <span>{m.scrollToExplore}</span>
+            <ArrowDown size={16} aria-hidden="true" />
           </a>
-        </Button>
-      </section>
+        </section>
+        <InformationPanel>
+            <section className="theme-story" aria-labelledby="story-title">
+              <h3 id="story-title">{m.storyTitle}</h3>
+              <div className="story-body">
+                {m.storyParagraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+              </div>
+            </section>
 
-      <section aria-labelledby="apps">
-        <h2 id="apps">{m.apps}</h2>
-        <div className="ports">
-          {ports.map(port => (
-            <article key={port.id}>
-              <Card className="h-full">
-                <CardHeader>
-                  <Badge variant="outline">{m.portStatus[port.status]}</Badge>
-                  <CardTitle><h3>{port.name}</h3></CardTitle>
-                  <CardDescription>{port.variants.join(" · ")}</CardDescription>
-                </CardHeader>
-                <CardFooter className="mt-auto gap-2">
-                  <Button asChild size="sm">
-                    <a href={port.installation}>{m.install}<ArrowUpRight data-icon="inline-end" /></a>
-                  </Button>
-                  <Button asChild size="sm" variant="ghost">
-                    <a href={port.repository}>{m.source}<ArrowUpRight data-icon="inline-end" /></a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </article>
-          ))}
-        </div>
-      </section>
+            <Separator className="palette-separator" />
+            <PalettePreview colors={colors} locale={locale} />
 
-      <section aria-labelledby="preview">
-        <h2 id="preview">{m.preview}</h2>
-        <div className="code">
-          <div className="code-title">pelagic / Kotlin</div>
-          <pre><code>
-            <span className="comment">{"// "}{m.codeComment}</span>{"\n"}
-            <span className="keyword">fun</span>{" "}<span className="function">dive</span>
-            {"(depth: "}<span className="type">Int</span>{"): "}<span className="type">String</span>{" {\n  "}
-            <span className="keyword">val</span>{" ocean = "}<span className="string">{'"Simhae"'}</span>{"\n  "}
-            <span className="keyword">return</span>{" ocean + depth\n}"}
-          </code></pre>
-        </div>
-      </section>
+            <section className="editor-preview" aria-labelledby="preview">
+              <h2 id="preview">{m.preview}</h2>
+              <div className="code">
+                <div className="code-title">
+                  <span className="editor-lights" aria-hidden="true"><i /><i /><i /></span>
+                  <span>Ocean.kt</span>
+                  <span className="editor-theme">Simhae</span>
+                </div>
+                <div className="code-body">
+                  <div className="code-lines" aria-hidden="true">1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10</div>
+                  <pre><code>
+                    <span className="comment">{"// "}{m.codeComment}</span>{"\n"}
+                    <span className="annotation">@</span><span className="deprecated">Deprecated</span>{"(\"legacyDepth\")\n"}
+                    <span className="keyword">data class</span>{" "}<span className="type">Dive</span>{"(\n  "}
+                    <span className="keyword">val</span>{" "}<span className="variable">depth</span>{": "}<span className="type">Int</span>{" = "}<span className="number">3840</span>{",\n  "}
+                    <span className="keyword">val</span>{" "}<span className="property">light</span>{": "}<span className="type">String</span>{" = "}<span className="string">{"\"blue"}</span><span className="escape">{"\\n"}</span><span className="string">{"abyss\""}</span>{"\n)\n\n"}
+                    <span className="keyword">fun</span>{" "}<span className="function">observe</span>{"(dive: "}<span className="type">Dive</span>{"): "}<span className="type">String</span>{" =\n  "}
+                    <span className="keyword">if</span>{" (dive.depth > "}<span className="number-bright">1000</span>{") "}<span className="string">{"\""}</span><span className="escape">{"\\u001B"}</span><span className="string">{"light fades\""}</span>{"\n  "}
+                    <span className="keyword">else</span>{" "}<span className="function">describe</span>{"("}<span className="selected-token">dive</span>{")"}
+                  </code></pre>
+                </div>
+                <div className="code-status">
+                  <span className="status-brand">Simhae</span>
+                  <span className="status-indicators" aria-label="Editor status">
+                    <span className="status-error"><i />1</span>
+                    <span className="status-warning"><i />2</span>
+                    <span className="status-success"><i />3</span>
+                    <span className="status-accent"><i />7</span>
+                  </span>
+                  <span>UTF-8 · Kotlin</span>
+                </div>
+              </div>
+            </section>
 
-      <section aria-labelledby="palette">
-        <h2 id="palette">{m.palette}</h2>
-        <p className="muted">{m.paletteNote}</p>
-        <div className="variants">
-          {Object.entries(paletteData.palettes).map(([name, colors]) => (
-            <Card key={name}>
-              <CardHeader>
-                <CardTitle>
-                  <div className="flex items-center gap-3">
-                    <h3>{name}</h3>
-                    {name === paletteData.main ? <Badge variant="secondary">{m.main}</Badge> : null}
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <dl className="swatches">
-                  {Object.entries(colors).map(([key, hex]) => (
-                    <div key={key}>
-                      <dt><i aria-hidden="true" style={{ backgroundColor: hex }} />{key}</dt>
-                      <dd>{hex}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-      <Separator />
-      <footer>
-        <p>{m.footer}</p>
-        <a href="https://github.com/spearkkk/deep-oceanic-next">Deep Oceanic Next ↗</a>
-      </footer>
-    </main>
+            <AppShowcase locale={locale} />
+
+            <footer>
+              <p>{m.footer}</p>
+              <a href="https://github.com/spearkkk/simhae-theme">{m.footerLink} ↗</a>
+            </footer>
+        </InformationPanel>
+        <section className="ocean-return" aria-hidden="true">
+          <div className="ocean-return-scene">
+            <Image src={oceanImage} alt="" fill sizes="100vw" className="ocean-return-image" />
+            <div className="ocean-return-shade" aria-hidden="true" />
+            <div className="ocean-ending">
+              <span>{m.endingLabel}</span>
+              <Separator className="ocean-ending-separator" />
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

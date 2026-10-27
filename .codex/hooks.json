@@ -1,0 +1,31 @@
+{
+  "description": "Keep web UI work aligned with the Simhae design contract.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/web_ui_context.py\"",
+            "statusMessage": "Loading Simhae web design rules",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/web_ui_context.py\"",
+            "statusMessage": "Checking Simhae UI consistency",
+            "timeout": 3
+          }
+        ]
+      }
+    ]
+  }
+}

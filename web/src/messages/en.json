@@ -1,9 +1,8 @@
 {
-  "foundation": "THEME FOUNDATION · DESIGN TO FOLLOW",
   "heading": "Simhae. A palette from the deep.",
   "description": "A shared ocean-inspired palette for your editor and browser.",
-  "notice": "This is the project foundation: shared colours, application links and language routing. The final landing page design comes next.",
   "language": "Language",
+  "headerDefinition": "the deep sea",
   "repository": "View the project",
   "apps": "Application themes",
   "portStatus": {
@@ -13,9 +12,61 @@
   "install": "Installation",
   "source": "Source",
   "preview": "Code preview",
+  "showcaseTitle": "Simhae across your setup",
+  "appScreenshotAlt": {
+    "zenBrowser": "Zen Browser window using the Simhae dark palette",
+    "chrome": "Chrome window showing the Simhae palette page",
+    "tmux": "A tmux session with split panes and the Simhae status bar",
+    "ghostty": "Ghostty terminal displaying fastfetch in Simhae colors",
+    "alfred": "Alfred search field styled with the Simhae palette"
+  },
   "codeComment": "Current, unchanged Simhae colours",
-  "palette": "The palettes",
-  "paletteNote": "Four existing variants, read directly from the canonical palette.",
-  "main": "main",
-  "footer": "Simhae · Shared colours, independent application themes."
+  "palette": "The palette",
+  "paletteNote": "24 colours, organized by their roles in Simhae.",
+  "footer": "Colours found in the unknown, at home in your everyday workspace.",
+  "footerLink": "The Simhae project",
+  "scrollToExplore": "Scroll to explore",
+  "endingLabel": "end.",
+  "paletteGroups": {
+    "foundation": "Background & text",
+    "syntax": "Syntax & accents",
+    "extended": "Extended colours"
+  },
+  "paletteRoles": {
+    "base00": "Background",
+    "base01": "Surface",
+    "base02": "Selection",
+    "base03": "Border",
+    "base04": "Comment",
+    "base05": "Foreground",
+    "base06": "Emphasized text",
+    "base07": "Bright text",
+    "base08": "Variable · Deleted",
+    "base09": "Constant · Number",
+    "base0A": "Type · Class",
+    "base0B": "String · Inserted",
+    "base0C": "Accent · Escape",
+    "base0D": "Function · Method",
+    "base0E": "Keyword",
+    "base0F": "Deprecated",
+    "base10": "Deep background",
+    "base11": "Bright red",
+    "base12": "Bright orange",
+    "base13": "Bright yellow",
+    "base14": "Bright green",
+    "base15": "Bright cyan",
+    "base16": "Bright blue",
+    "base17": "Bright purple"
+  },
+  "storyTitle": "Have you been in the deep ocean before?",
+  "storyParagraphs": [
+    "It’s a place where light bends and dances, where the colors shift and deepen in ways you can only imagine. For most of us, the deep ocean is a mystery—vast, quiet, and endlessly captivating. It’s a place we rarely touch, yet it feels like it touches us.",
+    "For years, I’ve been both fascinated and terrified by the ocean. I can’t swim—not even in water as shallow as my height. The fear of being swept away, of sinking, is real. But so is the wonder. The deep ocean, to me, is like a dream: unattainable yet vivid in my imagination.",
+    "The Simhae (심해) color theme was born from this paradox. It’s a palette inspired by the gradients of the ocean’s depths—from the near-black shadows to the glimmers of light that pierce through. It reflects the courage to embrace what we don’t understand and the beauty that lies in exploring the unknown.",
+    "This theme isn’t just about colors; it’s about a journey. A reminder that even if we can’t dive into the deep blue ourselves, we can bring a piece of it into our world—into our screens, our workspaces, and our creative expressions.",
+    "So, have you ever wondered what it’s like to dive into the unknown? To explore the depths that so few have seen? Maybe, together with this theme, you can take that step into your own deep ocean?"
+  ],
+  "copyColor": "Copy",
+  "colorCopied": "copied to clipboard.",
+  "colorCopyError": "Could not copy. Please try again."
 }

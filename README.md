@@ -11,7 +11,7 @@ An ocean-inspired colour theme family. This repository owns the canonical palett
 | [simhae-chrome](https://github.com/spearkkk/simhae-chrome) | Chrome theme |
 | [simhae-zen](https://github.com/spearkkk/simhae-zen) | Zen Browser theme |
 
-The existing four palettes are preserved without colour changes. **Pelagic** is the main palette; Trench, Hadal and Benthic remain available. This project is separate from [Deep Oceanic Next](https://github.com/spearkkk/deep-oceanic-next).
+**Simhae** is the public theme, with one shared palette across its application ports. This project is separate from [Deep Oceanic Next](https://github.com/spearkkk/deep-oceanic-next).
 
 ## Development
 

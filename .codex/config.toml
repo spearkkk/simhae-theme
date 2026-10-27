@@ -1,3 +1,4 @@
+#:schema https://developers.openai.com/codex/config-schema.json
 # Project-only MCP; resolve web/ from the active repository, including worktrees.
 [mcp_servers.shadcn]
 command = "/bin/sh"
