@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { mkdirSync, readFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { validatePorts } from '../scripts/lib/ports.mjs';
@@ -50,7 +50,14 @@ test('rejects invalid field types, statuses, and variants precisely', () => {
 });
 
 test('accepts only valid HTTPS repository and installation URLs', () => {
-  for (const [field, value] of [['repository', 'not a URL'], ['installation', 'http://example.com/install']]) {
+  const invalidUrls = [
+    ['repository', 'not a URL'],
+    ['installation', 'http://example.com/install'],
+    ['repository', 'https:github.com/spearkkk/simhae-intellij'],
+    ['installation', 'https:///github.com/spearkkk/simhae-intellij#installation'],
+  ];
+
+  for (const [field, value] of invalidUrls) {
     const ports = structuredClone(canonicalPorts);
     ports[0][field] = value;
     assert.throws(() => validatePorts(ports), new RegExp(`ports\\[0\\]\\.${field}`));
@@ -62,6 +69,21 @@ test('rejects screenshot paths that do not resolve to local public assets', () =
   try {
     const ports = structuredClone(canonicalPorts);
     ports[0].screenshot = '/app-shots/missing.png';
+    assert.throws(() => validatePorts(ports, { root }), /ports\[0\]\.screenshot/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('rejects screenshot paths that resolve to directories', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'simhae-ports-'));
+  try {
+    const screenshotDirectory = path.join(root, 'web/public/app-shots/directory');
+    mkdirSync(screenshotDirectory, { recursive: true });
+
+    const ports = structuredClone(canonicalPorts);
+    ports.forEach(port => delete port.screenshot);
+    ports[0].screenshot = '/app-shots/directory';
     assert.throws(() => validatePorts(ports, { root }), /ports\[0\]\.screenshot/);
   } finally {
     rmSync(root, { recursive: true, force: true });

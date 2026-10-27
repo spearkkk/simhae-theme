@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { statSync } from 'node:fs';
 import path from 'node:path';
 
 const requiredPortIds = ['intellij', 'chrome', 'zen'];
@@ -14,7 +14,9 @@ function isRecord(value) {
 }
 
 function validateHttpsUrl(value, index, field) {
-  if (typeof value !== 'string') fail(index, field, 'must be an HTTPS URL');
+  if (typeof value !== 'string' || !/^https:\/\/[^/\\?#\s]+(?:[/?#]|$)/i.test(value)) {
+    fail(index, field, 'must be an absolute HTTPS URL');
+  }
 
   let url;
   try {
@@ -36,8 +38,14 @@ function validateScreenshot(value, index, root) {
 
   const publicRoot = path.resolve(root, 'web/public');
   const filePath = path.resolve(publicRoot, value.slice(1));
-  if (!filePath.startsWith(`${publicRoot}${path.sep}`) || !existsSync(filePath)) {
-    fail(index, field, `does not exist under web/public: ${value}`);
+  let isFile = false;
+  try {
+    isFile = statSync(filePath).isFile();
+  } catch {
+    isFile = false;
+  }
+  if (!filePath.startsWith(`${publicRoot}${path.sep}`) || !isFile) {
+    fail(index, field, `must identify a file under web/public: ${value}`);
   }
 }
 
