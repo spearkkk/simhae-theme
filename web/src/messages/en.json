@@ -14,9 +14,11 @@
   "preview": "Code preview",
   "showcaseTitle": "Simhae across your setup",
   "appScreenshotAlt": {
-    "intellij": "JetBrains IDE window using the Simhae colour palette",
+    "alfred": "Alfred launcher on a Mac desktop using Simhae colours",
     "chrome": "Chrome window showing the Simhae palette page",
-    "zen": "Zen Browser window using the Simhae dark palette"
+    "ghostty-fastfetch": "Ghostty terminal displaying Fastfetch with Simhae colours",
+    "tmux": "tmux terminal session using Simhae colours",
+    "zen-browser": "Zen Browser window using the Simhae dark palette"
   },
   "portVariants": {
     "pelagic": "Pelagic",

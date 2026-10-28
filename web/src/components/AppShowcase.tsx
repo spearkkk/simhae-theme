@@ -1,11 +1,16 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ports } from "@/lib/content";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMessages } from "@/lib/messages";
+import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/locale";
+
+const screenshots = [
+  { id: "alfred", name: "Alfred", screenshot: "/app-shots/alfred.png" },
+  { id: "chrome", name: "Chrome", screenshot: "/app-shots/chrome.png" },
+  { id: "ghostty-fastfetch", name: "Ghostty + Fastfetch", screenshot: "/app-shots/ghostty-fastfetch.png" },
+  { id: "tmux", name: "tmux", screenshot: "/app-shots/tmux.png" },
+  { id: "zen-browser", name: "Zen Browser", screenshot: "/app-shots/zen-browser.png" },
+] as const;
 
 export function AppShowcase({ locale }: { locale: Locale }) {
   const m = getMessages(locale);
@@ -14,43 +19,33 @@ export function AppShowcase({ locale }: { locale: Locale }) {
     <section className="app-showcase" aria-labelledby="app-showcase-title">
       <h2 id="app-showcase-title">{m.showcaseTitle}</h2>
       <div className="app-shot-grid">
-        {ports.map((port, index) => (
-          <Card key={port.id} data-port-id={port.id} className="app-shot-card">
+        {screenshots.map(app => (
+          <Card key={app.id} data-app-id={app.id} className={cn("app-shot-card", app.id === "alfred" && "app-shot-card--launcher")}>
             <CardHeader className="app-shot-header">
-              <span className="app-shot-index" aria-hidden="true">0{index + 1}</span>
-              <div className="app-shot-heading">
-                <CardTitle><h3>{port.name}</h3></CardTitle>
-                <CardDescription className="app-shot-variants">
-                  {port.variants.map(variant => m.portVariants[variant]).join(" · ")}
-                </CardDescription>
-              </div>
-              <Badge variant="outline">{m.portStatus[port.status]}</Badge>
+              <CardTitle><h3>{app.name}</h3></CardTitle>
             </CardHeader>
-            {port.screenshot && (
-              <CardContent className="app-shot-content">
-                <div className="app-shot-art">
+            <CardContent className="app-shot-content">
+              <div className={cn("app-shot-art", app.id === "alfred" && "app-shot-art--launcher")}>
+                {app.id === "alfred" ? (
                   <Image
-                    src={port.screenshot}
-                    alt={m.appScreenshotAlt[port.id]}
+                    src={app.screenshot}
+                    alt={m.appScreenshotAlt[app.id]}
+                    width={1586}
+                    height={170}
+                    sizes="(max-width: 800px) 100vw, 450px"
+                    className="app-shot-image"
+                  />
+                ) : (
+                  <Image
+                    src={app.screenshot}
+                    alt={m.appScreenshotAlt[app.id]}
                     fill
                     sizes="(max-width: 800px) 100vw, 450px"
                     className="app-shot-image"
                   />
-                </div>
-              </CardContent>
-            )}
-            <CardFooter className="app-shot-actions">
-              <Button asChild size="sm">
-                <a href={port.installation} target="_blank" rel="noreferrer">
-                  {m.install}<ArrowUpRight data-icon="inline-end" />
-                </a>
-              </Button>
-              <Button asChild size="sm" variant="outline">
-                <a href={port.repository} target="_blank" rel="noreferrer">
-                  {m.source}<ArrowUpRight data-icon="inline-end" />
-                </a>
-              </Button>
-            </CardFooter>
+                )}
+              </div>
+            </CardContent>
           </Card>
         ))}
       </div>

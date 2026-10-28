@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
-const applicationPorts = JSON.parse(readFileSync(new URL('../../data/ports.json', import.meta.url), 'utf8'));
 const englishMessages = JSON.parse(readFileSync(new URL('../../web/src/messages/en.json', import.meta.url), 'utf8'));
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
@@ -166,40 +165,47 @@ test('scrolling beyond the footer fades the ocean over the story', async ({ page
   expect(headerHeight).toBeGreaterThan(0);
 });
 
-test('application gallery follows the canonical port index and omits absent screenshots', async ({ page }) => {
+test('setup gallery shows each app screenshot without installation or source actions', async ({ page }) => {
   await page.goto('/en');
   const cards = page.locator('.app-shot-card');
-  await expect(cards).toHaveCount(applicationPorts.length);
+  const apps = [
+    { id: 'alfred', name: 'Alfred', screenshot: '/app-shots/alfred.png' },
+    { id: 'chrome', name: 'Chrome', screenshot: '/app-shots/chrome.png' },
+    { id: 'ghostty-fastfetch', name: 'Ghostty + Fastfetch', screenshot: '/app-shots/ghostty-fastfetch.png' },
+    { id: 'tmux', name: 'tmux', screenshot: '/app-shots/tmux.png' },
+    { id: 'zen-browser', name: 'Zen Browser', screenshot: '/app-shots/zen-browser.png' },
+  ];
+  await expect(cards).toHaveCount(apps.length);
 
-  for (const port of applicationPorts) {
-    const card = page.locator(`[data-port-id="${port.id}"]`);
+  for (const app of apps) {
+    const card = page.locator(`[data-app-id="${app.id}"]`);
     await expect(card).toHaveCount(1);
-    await expect(card.getByRole('heading')).toHaveText(port.name);
-    await expect(card).toContainText(englishMessages.portStatus[port.status]);
-    await expect(card.locator('.app-shot-variants')).toHaveText(port.variants.map((variant: string) => englishMessages.portVariants[variant]).join(' · '));
-    await expect(card.getByRole('link', { name: 'Installation' })).toHaveAttribute('href', port.installation);
-    await expect(card.getByRole('link', { name: 'Source' })).toHaveAttribute('href', port.repository);
-    if (port.screenshot) {
-      const image = card.locator('img');
-      await expect(image).toHaveAttribute('src', new RegExp(encodeURIComponent(port.screenshot)));
-      await image.evaluate(el => { (el as HTMLImageElement).loading = 'eager'; });
-      await expect.poll(() => card.locator('img').evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-    } else {
-      await expect(card.locator('img')).toHaveCount(0);
+    await expect(card.getByRole('heading')).toHaveText(app.name);
+    if (app.id === 'alfred') {
+      await expect(card).toHaveClass(/app-shot-card--launcher/);
+      await expect(card.locator('.app-shot-art')).toHaveClass(/app-shot-art--launcher/);
     }
+    const image = card.locator('img');
+    await expect(image).toHaveAttribute('src', new RegExp(encodeURIComponent(app.screenshot)));
+    await expect(image).toHaveAttribute('alt', englishMessages.appScreenshotAlt[app.id]);
+    await image.evaluate(el => { (el as HTMLImageElement).loading = 'eager'; });
+    await expect.poll(() => image.evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    await expect(card.getByRole('link')).toHaveCount(0);
+    await expect(card.locator('[data-slot="badge"]')).toHaveCount(0);
   }
+  const desktopGalleryWidth = await page.locator('.app-shot-grid').evaluate(el => el.getBoundingClientRect().width);
+  const desktopAlfredWidth = await page.locator('[data-app-id="alfred"]').evaluate(el => el.getBoundingClientRect().width);
+  expect(Math.abs(desktopGalleryWidth - desktopAlfredWidth)).toBeLessThan(1);
 
-  const sourceLink = page.locator('[data-port-id="intellij"]').getByRole('link', { name: 'Source' });
-  const installLink = page.locator('[data-port-id="intellij"]').getByRole('link', { name: 'Installation' });
-  await sourceLink.focus();
-  await page.keyboard.press('Shift+Tab');
-  await expect(installLink).toBeFocused();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.app-shot-card').first()).toHaveCSS('animation-name', 'none');
 
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
-    await expect(page.locator('.app-shot-card')).toHaveCount(applicationPorts.length);
+    await expect(page.locator('.app-shot-card')).toHaveCount(apps.length);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const galleryWidth = await page.locator('.app-shot-grid').evaluate(el => el.getBoundingClientRect().width);
+    const alfredWidth = await page.locator('[data-app-id="alfred"]').evaluate(el => el.getBoundingClientRect().width);
+    expect(Math.abs(galleryWidth - alfredWidth)).toBeLessThan(1);
   }
 });

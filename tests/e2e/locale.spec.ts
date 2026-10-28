@@ -17,7 +17,7 @@ test('explicit locale wins, manual choice persists and shared colours are presen
  await expect(page.locator('.palette-entry').first()).toContainText('Background');
  await expect(page.locator('.palette-entry').last()).toContainText('Bright purple');
  await expect(page.locator('.palette-preview')).not.toContainText(/pelagic|trench|hadal|benthic/i);
- await expect(page.locator('.app-shot-card')).toHaveCount(3);
+ await expect(page.locator('.app-shot-card')).toHaveCount(5);
  await page.getByRole('link',{name:'한국어',exact:true}).click();
  await expect(page).toHaveURL(/\/ko$/);await expect(page.locator('html')).toHaveAttribute('lang','ko');
  await expect(page.locator('.theme-story')).toContainText('심해 컬러 테마는 그런 마음으로 만들었습니다.');

@@ -151,7 +151,7 @@ html { scroll-behavior: smooth; }
 .wordmark-definition { color: var(--muted-foreground); font-size: 11px; font-weight: 400; letter-spacing: .025em; line-height: 1.3; }
 .editor-preview { max-width: var(--palette-content-width); margin: 0 auto; padding-top: 64px; }
 .app-showcase { max-width: var(--palette-content-width); margin: 0 auto; padding: 64px 0 88px; }
-.app-shot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; }
+.app-shot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 32px 18px; }
 .app-shot-card { overflow: hidden; border-color: color-mix(in srgb, var(--base05) 12%, var(--border)); background: linear-gradient(145deg, color-mix(in srgb, var(--base05) 7%, var(--base01)), color-mix(in srgb, var(--base10) 84%, var(--base01))); box-shadow: 0 14px 42px color-mix(in srgb, var(--base10) 35%, transparent), inset 0 1px color-mix(in srgb, var(--base07) 8%, transparent); animation: app-drift 8s ease-in-out infinite; transition: transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 450ms ease, border-color 450ms ease; }
 .app-shot-card:nth-child(2n) { animation-delay: -3s; }
 .app-shot-card:nth-child(3n) { animation-delay: -5s; }
@@ -170,7 +170,7 @@ html { scroll-behavior: smooth; }
 .app-shot-card:hover .app-shot-art::after { left: 120%; }
 .app-shot-image { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 7px; box-shadow: 0 12px 30px color-mix(in srgb, var(--base10) 70%, transparent); }
 .app-shot-art--launcher { min-height: 112px; aspect-ratio: auto; padding: 16px; background: radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--base02) 56%, var(--base10)), var(--base10) 78%); }
-.app-shot-art--launcher .app-shot-image { width: 100%; height: auto; max-height: 78px; object-fit: contain; }
+.app-shot-art--launcher .app-shot-image { width: 100%; height: 78px; object-fit: cover; }
 .intro { max-width: 800px; padding: 28px 0 30px; }
 .eyebrow { font: 12px/1.5 ui-monospace, monospace; letter-spacing: 1px; color: var(--primary); }
 .intro-heading { font-size: clamp(36px, 5vw, 60px); font-weight: 700; letter-spacing: -2px; line-height: 1.2; margin: 20px 0; }
